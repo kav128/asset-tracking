@@ -1,0 +1,86 @@
+﻿@model AssetViewModel
+
+@if (Model.Ready)
+{
+    <section class="mt-0 mb-4">
+        <div class="card-deck">
+            <div class="card card-inverse card-success card-header my-2">
+                <div class="card-block mb-4">
+                    <div class="rotate">
+                        <i class="fa fa-user fa-5x"></i>
+                    </div>
+                    <h6 class="text-uppercase">Total Assets</h6>
+                    <h1 class="display-3">
+                        @Model.Count
+                    </h1>
+                </div>
+            </div>
+            <div class="card card-inverse card-info card-header my-2">
+                <div class="card-block mb-4">
+                    <div class="rotate">
+                        <i class="fa fa-credit-card-alt fa-5x"></i>
+                    </div>
+                    <h6 class="text-uppercase">Average Cost</h6>
+                    <h1 class="display-3">
+                        @Model.AverageCost
+                    </h1>
+                </div>
+            </div>
+            <div class="card card-inverse card-danger card-header my-2">
+                <div class="card-block mb-4">
+                    <div class="rotate">
+                        <i class="fa fa-calendar fa-5x"></i>
+                    </div>
+                    <h6 class="text-uppercase">Newest Asset</h6>
+                    <h1 class="display-5">
+                        @Model.LatestAssetName
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <table class="table table-hover my-4">
+        <thead class="thead-inverse">
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Code</th>
+                <th>Cost</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Assets)
+            {
+                <tr>
+                    <td>
+                        <small class="text-faded">
+                            @item.id
+                        </small>
+                    </td>
+                    <th scope="row">@item.name</th>
+                    <td>
+                        <em>
+                            @item.code
+                        </em>
+                    </td>
+                    <td class="text-right">
+                        @item.cost.ToString("C")
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="left" title="@item">
+                            <i class="fa fa-code" aria-hidden="true"></i>
+                            View JSON
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-warning show" role="alert">
+        <strong>Warning!</strong> You must complete the configuration setup before this dashboard will work.
+    </div>
+}
