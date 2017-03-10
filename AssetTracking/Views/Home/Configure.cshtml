@@ -14,12 +14,12 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Configuration.ConnectionString)
         @Html.TextBoxFor(model => model.Configuration.ConnectionString, new { @class = "form-control", type = "text" })
-        <small class="form-text text-muted">You can find this in the summary section of the DocumentDB blade.</small>
+        <small class="form-text text-muted">You can find this in the Keys blade.</small>
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.Configuration.Table)
         @Html.TextBoxFor(model => model.Configuration.Table, new { @class = "form-control", type = "text" })
-        <small class="form-text text-muted">You can use a read-only key from the Keys blade.</small>
+        <small class="form-text text-muted">You can use the name of the table from the Azure Storage Explorer tool.</small>
     </div>
     <button type="submit" class="btn btn-primary">Save Configuration</button>
 }
