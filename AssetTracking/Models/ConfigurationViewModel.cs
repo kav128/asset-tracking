@@ -4,6 +4,6 @@
     {
         public bool Saved { get; set; }
 
-        public DocumentDBConfiguration Configuration { get; set; }
+        public SearchConfiguration Configuration { get; set; }
     }
 }

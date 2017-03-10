@@ -3,7 +3,7 @@ using System.Configuration;
 
 namespace AssetTracking.Models
 {
-    public class DocumentDBConfiguration
+    public class SearchConfiguration
     {
         const string PREFIX = "DOCUMENTDB";
 
@@ -20,9 +20,9 @@ namespace AssetTracking.Models
             get { return $"dbs/{Database}/colls/{Collection}"; }
         }
 
-        public static DocumentDBConfiguration RetrieveAppSettings()
+        public static SearchConfiguration RetrieveAppSettings()
         {
-            return new DocumentDBConfiguration
+            return new SearchConfiguration
             {
                 Host = ConfigurationManager.AppSettings[$"{PREFIX}_{nameof(Host)}"],
                 Key = ConfigurationManager.AppSettings[$"{PREFIX}_{nameof(Key)}"],
@@ -31,7 +31,7 @@ namespace AssetTracking.Models
             };
         }
 
-        public static void SaveAppSettings(DocumentDBConfiguration config)
+        public static void SaveAppSettings(SearchConfiguration config)
         {
             ConfigurationManager.AppSettings[$"{PREFIX}_{nameof(Host)}"] = config.Host;
             ConfigurationManager.AppSettings[$"{PREFIX}_{nameof(Key)}"] = config.Key;
