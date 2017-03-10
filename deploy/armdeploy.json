@@ -2,14 +2,9 @@
   "$schema": "http://schemas.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "webAppName": {
-      "type": "string",
-      "metadata": {
-        "description": "Unique name for the web application"
-      }
-    }
   },
   "variables": {
+    "webAppName": "[concat('web-', uniqueString(resourceGroup().id, deployment().name))]",
     "hostingPlanName": "[concat('plan-', uniqueString(resourceGroup().id, deployment().name))]",
     "repoURL": "https://github.com/Azure-Architecture-Workshop/asset-tracking.git",
     "branch": "storagetables",
@@ -33,10 +28,10 @@
     {
       "apiVersion": "2015-08-01",
       "type": "Microsoft.Web/sites",
-      "name": "[parameters('webAppName')]",
+      "name": "[variables('webAppName')]",
       "location": "[resourceGroup().location]",
       "properties": {
-        "name": "[parameters('webAppName')]",
+        "name": "[variables('webAppName')]",
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
         "siteConfig": {
           "appSettings": [
@@ -60,7 +55,7 @@
           "name": "web",
           "type": "sourcecontrols",
           "dependsOn": [
-            "[resourceId('Microsoft.Web/Sites', parameters('webAppName'))]"
+            "[resourceId('Microsoft.Web/Sites', variables('webAppName'))]"
           ],
           "properties": {
             "RepoUrl": "[variables('repoURL')]",
