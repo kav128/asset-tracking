@@ -36,19 +36,15 @@
         "siteConfig": {
           "appSettings": [
             {
-              "Name": "DOCUMENTDB_Host",
+              "Name": "MONGODB_ConnectionString",
               "Value": ""
             },
             {
-              "Name": "DOCUMENTDB_Key",
+              "Name": "MONGODB_Database",
               "Value": ""
             },
             {
-              "Name": "DOCUMENTDB_Database",
-              "Value": ""
-            },
-            {
-              "Name": "DOCUMENTDB_Collection",
+              "Name": "MONGODB_Collection",
               "Value": ""
             }
           ]
