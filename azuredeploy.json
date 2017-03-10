@@ -1,0 +1,149 @@
+{
+    "$schema": "http://schemas.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+
+    },
+    "variables": {
+        "webAppName": "[concat('web-', uniqueString(resourceGroup().id, deployment().name))]",
+        "hostingPlanName": "[concat('plan-', uniqueString(resourceGroup().id, deployment().name))]",
+        "databaseServerAccountName": "[concat('srvr-', uniqueString(resourceGroup().id, deployment().name))]",
+        "databaseAccountName": "[concat('db-', uniqueString(resourceGroup().id, deployment().name))]",
+        "searchAccountName": "[concat('search-', uniqueString(resourceGroup().id, deployment().name))]",
+        "redisAccountName": "[concat('cache-', uniqueString(resourceGroup().id, deployment().name))]",
+        "repoURL": "https://github.com/Azure-Architecture-Workshop/asset-tracking.git",
+        "branch": "searchredis",
+        "sku": "Free",
+        "workerSize": 0,
+        "redisCacheSKU": "Basic",
+        "redisCacheFamily": "C",
+        "redisCacheCapacity": 1,
+        "redisEnableNonSslPort": true,
+        "searchSku": "free",
+        "hostingMode": "default",
+        "partitionCount": "1",
+        "replicaCount": "1",
+        "databaseCollation": "SQL_Latin1_General_CP1_CI_AS",
+        "databaseEdition": "Basic",
+        "databaseTier": "Basic"
+    },
+    "resources": [{
+        "apiVersion": "2015-08-01",
+        "name": "[variables('redisAccountName')]",
+        "type": "Microsoft.Cache/Redis",
+        "location": "[resourceGroup().location]",
+        "properties": {
+            "enableNonSslPort": "[variables('redisEnableNonSslPort')]",
+            "sku": {
+                "capacity": "[variables('redisCacheCapacity')]",
+                "family": "[variables('redisCacheFamily')]",
+                "name": "[variables('redisCacheSKU')]"
+            }
+        }
+    }, {
+        "apiVersion": "2015-08-19",
+        "name": "[variables('searchAccountName')]",
+        "type": "Microsoft.Search/searchServices",
+        "location": "[resourceGroup().location]",
+        "sku": {
+            "name": "[variables('searchSku')]"
+        },
+        "properties": {
+            "replicaCount": "[variables('replicaCount')]",
+            "partitionCount": "[variables('partitionCount')]",
+            "hostingMode": "[variables('hostingMode')]"
+        }
+    }, {
+        "type": "Microsoft.Web/serverfarms",
+        "apiVersion": "2015-04-01",
+        "name": "[variables('hostingPlanName')]",
+        "location": "[resourceGroup().location]",
+        "properties": {
+            "name": "[variables('hostingPlanName')]",
+            "sku": "[variables('sku')]",
+            "workerSize": "[variables('workerSize')]",
+            "hostingEnvironment": "",
+            "numberOfWorkers": 1
+        }
+    }, {
+        "apiVersion": "2015-08-01",
+        "type": "Microsoft.Web/sites",
+        "name": "[variables('webAppName')]",
+        "location": "[resourceGroup().location]",
+        "properties": {
+            "name": "[variables('webAppName')]",
+            "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
+            "siteConfig": {
+                "appSettings": [{
+                    "Name": "SEARCH_Name",
+                    "Value": ""
+                }, {
+                    "Name": "SEARCH_Key",
+                    "Value": ""
+                }, {
+                    "Name": "SEARCH_Index",
+                    "Value": "products"
+                }, {
+                    "Name": "REDIS_ConnectionString",
+                    "Value": ""
+                }]
+            }
+        },
+        "dependsOn": [
+            "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
+            "[resourceId('Microsoft.Sql/servers/databases', variables('databaseServerAccountName'), variables('databaseAccountName'))]",
+            "[resourceId('Microsoft.Search/searchServices', variables('searchAccountName'))]",
+            "[resourceId('Microsoft.Cache/Redis', variables('redisAccountName'))]"
+        ],
+        "resources": [{
+            "apiVersion": "2015-08-01",
+            "name": "web",
+            "type": "sourcecontrols",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/Sites', variables('webAppName'))]"
+            ],
+            "properties": {
+                "RepoUrl": "[variables('repoURL')]",
+                "branch": "[variables('branch')]",
+                "IsManualIntegration": true
+            }
+        }]
+    }, {
+        "name": "[variables('databaseServerAccountName')]",
+        "type": "Microsoft.Sql/servers",
+        "location": "[resourceGroup().location]",
+        "apiVersion": "2014-04-01-preview",
+        "dependsOn": [],
+        "properties": {
+            "administratorLogin": "[variables('serverAdminLogin')]",
+            "administratorLoginPassword": "[variables('serverAdminPassword')]"
+        },
+        "resources": [{
+            "name": "AllowAllWindowsAzureIps",
+            "type": "firewallrules",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2014-04-01-preview",
+            "dependsOn": [
+                "[concat('Microsoft.Sql/servers/', variables('databaseServerAccountName'))]"
+            ],
+            "properties": {
+                "startIpAddress": "0.0.0.0",
+                "endIpAddress": "0.0.0.0"
+            }
+        }, {
+            "name": "[variables('databaseAccountName')]",
+            "type": "databases",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2014-04-01-preview",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers/', variables('databaseServerAccountName'))]"
+            ],
+            "properties": {
+                "collation": "[variables('databaseCollation')]",
+                "edition": "[variables('databaseEdition')]",
+                "maxSizeBytes": "1073741824",
+                "requestedServiceObjectiveName": "[variables('databaseTier')]"
+            }
+        }]
+    }]
+}
