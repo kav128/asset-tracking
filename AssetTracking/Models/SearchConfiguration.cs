@@ -13,13 +13,17 @@ namespace AssetTracking.Models
 
         [Display(Name = "Azure Search Instance Key")]
         public string Key { get; set; }
-        
+
+        [Display(Name = "Azure Search Index Name")]
+        public string Index { get; set; }
+
         public static SearchConfiguration RetrieveAppSettings()
         {
             return new SearchConfiguration
             {
                 Name = ConfigurationManager.AppSettings[$"{PREFIX}_{nameof(Name)}"],
-                Key = ConfigurationManager.AppSettings[$"{PREFIX}_{nameof(Key)}"]
+                Key = ConfigurationManager.AppSettings[$"{PREFIX}_{nameof(Key)}"],
+                Index = ConfigurationManager.AppSettings[$"{PREFIX}_{nameof(Index)}"]
             };
         }
 
@@ -27,6 +31,7 @@ namespace AssetTracking.Models
         {
             ConfigurationManager.AppSettings[$"{PREFIX}_{nameof(Name)}"] = config.Name;
             ConfigurationManager.AppSettings[$"{PREFIX}_{nameof(Key)}"] = config.Key;
+            ConfigurationManager.AppSettings[$"{PREFIX}_{nameof(Index)}"] = config.Index;
         }
 
         public bool Validate()
@@ -36,6 +41,10 @@ namespace AssetTracking.Models
                 return false;
             }
             else if (String.IsNullOrWhiteSpace(Key))
+            {
+                return false;
+            }
+            else if (String.IsNullOrWhiteSpace(Index))
             {
                 return false;
             }

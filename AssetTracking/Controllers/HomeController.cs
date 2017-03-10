@@ -17,7 +17,7 @@ namespace AssetTracking.Controllers
                     Ready = true,
                     Assets = service.GetDocuments(),
                     Count = service.CountDocuments(),
-                    AverageCost = service.AverageCost(),
+                    CacheLastUpdated = service.CacheLastUpdated(),
                     LatestAssetName = service.GetLatestAssetName()
                 });
             }

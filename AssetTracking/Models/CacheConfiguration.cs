@@ -8,34 +8,25 @@ namespace AssetTracking.Models
     {
         const string PREFIX = "REDIS";
 
-        [Display(Name = "Redis Cache Instance Name")]
-        public string Name { get; set; }
-
-        [Display(Name = "Redis Cache Instance Key")]
-        public string Key { get; set; }
-
+        [Display(Name = "Redis Cache Connection String")]
+        public string ConnectionString { get; set; }
+        
         public static CacheConfiguration RetrieveAppSettings()
         {
             return new CacheConfiguration
             {
-                Name = ConfigurationManager.AppSettings[$"{PREFIX}_{nameof(Name)}"],
-                Key = ConfigurationManager.AppSettings[$"{PREFIX}_{nameof(Key)}"]
+                ConnectionString = ConfigurationManager.AppSettings[$"{PREFIX}_{nameof(ConnectionString)}"]
             };
         }
 
         public static void SaveAppSettings(CacheConfiguration config)
         {
-            ConfigurationManager.AppSettings[$"{PREFIX}_{nameof(Name)}"] = config.Name;
-            ConfigurationManager.AppSettings[$"{PREFIX}_{nameof(Key)}"] = config.Key;
+            ConfigurationManager.AppSettings[$"{PREFIX}_{nameof(ConnectionString)}"] = config.ConnectionString;
         }
 
         public bool Validate()
         {
-            if (String.IsNullOrWhiteSpace(Name))
-            {
-                return false;
-            }
-            else if (String.IsNullOrWhiteSpace(Key))
+            if (String.IsNullOrWhiteSpace(ConnectionString))
             {
                 return false;
             }
