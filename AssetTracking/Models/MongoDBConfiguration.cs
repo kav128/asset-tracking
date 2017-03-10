@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Configuration;
 
 namespace AssetTracking.Models
@@ -7,10 +8,13 @@ namespace AssetTracking.Models
     {
         const string PREFIX = "MONGODB";
 
+        [Display(Name = "Connection String")]
         public string ConnectionString { get; set; }
 
+        [Display(Name = "Database Name")]
         public string Database { get; set; }
 
+        [Display(Name = "Collection Name")]
         public string Collection { get; set; }
         
         public static MongoDBConfiguration RetrieveAppSettings()
