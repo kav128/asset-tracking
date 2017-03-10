@@ -25,7 +25,9 @@
         "replicaCount": "1",
         "databaseCollation": "SQL_Latin1_General_CP1_CI_AS",
         "databaseEdition": "Basic",
-        "databaseTier": "Basic"
+        "databaseTier": "Basic",
+        "serverAdminLogin": "example",
+        "serverAdminPassword": "1stAzure"
     },
     "resources": [{
         "apiVersion": "2015-08-01",
