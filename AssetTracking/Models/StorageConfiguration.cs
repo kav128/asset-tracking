@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Configuration;
 
 namespace AssetTracking.Models
@@ -7,8 +8,10 @@ namespace AssetTracking.Models
     {
         const string PREFIX = "STORAGE";
 
+        [Display(Name = "Connection String")]
         public string ConnectionString { get; set; }
 
+        [Display(Name = "Table Name")]
         public string Table { get; set; }
         
         public static StorageConfiguration RetrieveAppSettings()
