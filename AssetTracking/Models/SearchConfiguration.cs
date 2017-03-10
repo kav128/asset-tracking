@@ -14,12 +14,7 @@ namespace AssetTracking.Models
         public string Database { get; set; }
 
         public string Collection { get; set; }
-
-        public string CollectionUrl
-        {
-            get { return $"dbs/{Database}/colls/{Collection}"; }
-        }
-
+        
         public static SearchConfiguration RetrieveAppSettings()
         {
             return new SearchConfiguration

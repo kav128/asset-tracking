@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace AssetTracking.Models
 {
@@ -18,7 +19,7 @@ namespace AssetTracking.Models
 
         internal string GetLatestAssetName()
         {
-            return default(string);
+            return String.Empty;
         }
 
         internal int AverageCost()
