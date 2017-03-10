@@ -12,22 +12,14 @@
 @using (Html.BeginForm())
 {
     <div class="form-group">
-        @Html.LabelFor(model => model.Configuration.Host)
-        @Html.TextBoxFor(model => model.Configuration.Host, new { @class = "form-control", type = "url" })
+        @Html.LabelFor(model => model.Configuration.ConnectionString)
+        @Html.TextBoxFor(model => model.Configuration.ConnectionString, new { @class = "form-control", type = "text" })
         <small class="form-text text-muted">You can find this in the summary section of the DocumentDB blade.</small>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.Configuration.Key)
-        @Html.TextBoxFor(model => model.Configuration.Key, new { @class = "form-control", type = "password" })
+        @Html.LabelFor(model => model.Configuration.Table)
+        @Html.TextBoxFor(model => model.Configuration.Table, new { @class = "form-control", type = "text" })
         <small class="form-text text-muted">You can use a read-only key from the Keys blade.</small>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Configuration.Database)
-        @Html.TextBoxFor(model => model.Configuration.Database, new { @class = "form-control", type = "text" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Configuration.Collection)
-        @Html.TextBoxFor(model => model.Configuration.Collection, new { @class = "form-control", type = "text" })
     </div>
     <button type="submit" class="btn btn-primary">Save Configuration</button>
 }
