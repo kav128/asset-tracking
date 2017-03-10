@@ -7,12 +7,16 @@ namespace AssetTracking.Models
     {
         const string PREFIX = "DOCUMENTDB";
 
+        [Display(Name = "Host URL")]
         public string Host { get; set; }
 
+        [Display(Name = "Read-Only Key")]
         public string Key { get; set; }
 
+        [Display(Name = "Database Name")]
         public string Database { get; set; }
 
+        [Display(Name = "Collection Name")]
         public string Collection { get; set; }
 
         public string CollectionUrl
