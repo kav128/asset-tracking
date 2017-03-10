@@ -33,10 +33,10 @@
     {
       "apiVersion": "2015-08-01",
       "type": "Microsoft.Web/sites",
-      "name": "[variables('webAppName')]",
+      "name": "[parameters('webAppName')]",
       "location": "[resourceGroup().location]",
       "properties": {
-        "name": "[variables('webAppName')]",
+        "name": "[parameters('webAppName')]",
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
         "siteConfig": {
           "appSettings": [
@@ -61,7 +61,7 @@
           "name": "web",
           "type": "sourcecontrols",
           "dependsOn": [
-            "[resourceId('Microsoft.Web/Sites', variables('webAppName'))]"
+            "[resourceId('Microsoft.Web/Sites', parameters('webAppName'))]"
           ],
           "properties": {
             "RepoUrl": "[variables('repoURL')]",
