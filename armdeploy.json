@@ -7,7 +7,7 @@
     "variables": {
         "webAppName": "[concat('web-', uniqueString(resourceGroup().id, deployment().name))]",
         "hostingPlanName": "[concat('plan-', uniqueString(resourceGroup().id, deployment().name))]",
-        "storageAccountName": "[concat('stor-', uniqueString(resourceGroup().id, deployment().name))]",
+        "storageAccountName": "[concat('stor', uniqueString(resourceGroup().id, deployment().name))]",
         "repoURL": "https://github.com/Azure-Architecture-Workshop/asset-tracking.git",
         "branch": "storagetables",
         "sku": "Free",
