@@ -12,22 +12,23 @@
 @using (Html.BeginForm())
 {
     <div class="form-group">
-        @Html.LabelFor(model => model.Configuration.Host)
-        @Html.TextBoxFor(model => model.Configuration.Host, new { @class = "form-control", type = "url" })
-        <small class="form-text text-muted">You can find this in the summary section of the DocumentDB blade.</small>
+        @Html.LabelFor(model => model.SearchConfiguration.Name)
+        @Html.TextBoxFor(model => model.SearchConfiguration.Name, new { @class = "form-control", type = "text" })
+        <small class="form-text text-muted">This is the name of your Search service.</small>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.Configuration.Key)
-        @Html.TextBoxFor(model => model.Configuration.Key, new { @class = "form-control", type = "password" })
+        @Html.LabelFor(model => model.SearchConfiguration.Key)
+        @Html.TextBoxFor(model => model.SearchConfiguration.Key, new { @class = "form-control", type = "password" })
         <small class="form-text text-muted">You can use a read-only key from the Keys blade.</small>
     </div>
+    <hr />
     <div class="form-group">
-        @Html.LabelFor(model => model.Configuration.Database)
-        @Html.TextBoxFor(model => model.Configuration.Database, new { @class = "form-control", type = "text" })
+        @Html.LabelFor(model => model.CacheConfiguration.Name)
+        @Html.TextBoxFor(model => model.CacheConfiguration.Name, new { @class = "form-control", type = "text" })
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.Configuration.Collection)
-        @Html.TextBoxFor(model => model.Configuration.Collection, new { @class = "form-control", type = "text" })
+        @Html.LabelFor(model => model.CacheConfiguration.Key)
+        @Html.TextBoxFor(model => model.CacheConfiguration.Key, new { @class = "form-control", type = "password" })
     </div>
     <button type="submit" class="btn btn-primary">Save Configuration</button>
 }

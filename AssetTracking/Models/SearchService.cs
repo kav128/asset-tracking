@@ -5,11 +5,13 @@ namespace AssetTracking.Models
 {
     public class SearchService
     {
-        private SearchConfiguration _configuration;
+        private SearchConfiguration _searchConfiguration;
+        private CacheConfiguration _cacheConfiguration;
 
-        public SearchService(SearchConfiguration configuration)
+        public SearchService(SearchConfiguration searchConfiguration, CacheConfiguration cacheConfiguration)
         {
-            _configuration = configuration;
+            _searchConfiguration = searchConfiguration;
+            _cacheConfiguration = cacheConfiguration;
         }
 
         internal int CountDocuments()

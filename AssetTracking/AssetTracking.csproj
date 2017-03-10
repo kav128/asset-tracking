@@ -126,7 +126,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AssetViewModel.cs" />
+    <Compile Include="Models\CacheConfiguration.cs" />
     <Compile Include="Models\ConfigurationViewModel.cs" />
+    <Compile Include="Models\DataHelpers.cs" />
     <Compile Include="Models\SearchConfiguration.cs" />
     <Compile Include="Models\SearchService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

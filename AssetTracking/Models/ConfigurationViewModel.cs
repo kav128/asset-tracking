@@ -4,6 +4,8 @@
     {
         public bool Saved { get; set; }
 
-        public SearchConfiguration Configuration { get; set; }
+        public SearchConfiguration SearchConfiguration { get; set; }
+
+        public CacheConfiguration CacheConfiguration { get; set; }
     }
 }

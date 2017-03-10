@@ -4,26 +4,26 @@ using System.Configuration;
 
 namespace AssetTracking.Models
 {
-    public class SearchConfiguration
+    public class CacheConfiguration
     {
-        const string PREFIX = "SEARCH";
+        const string PREFIX = "REDIS";
 
-        [Display(Name = "Azure Search Instance Name")]
+        [Display(Name = "Redis Cache Instance Name")]
         public string Name { get; set; }
 
-        [Display(Name = "Azure Search Instance Key")]
+        [Display(Name = "Redis Cache Instance Key")]
         public string Key { get; set; }
-        
-        public static SearchConfiguration RetrieveAppSettings()
+
+        public static CacheConfiguration RetrieveAppSettings()
         {
-            return new SearchConfiguration
+            return new CacheConfiguration
             {
                 Name = ConfigurationManager.AppSettings[$"{PREFIX}_{nameof(Name)}"],
                 Key = ConfigurationManager.AppSettings[$"{PREFIX}_{nameof(Key)}"]
             };
         }
 
-        public static void SaveAppSettings(SearchConfiguration config)
+        public static void SaveAppSettings(CacheConfiguration config)
         {
             ConfigurationManager.AppSettings[$"{PREFIX}_{nameof(Name)}"] = config.Name;
             ConfigurationManager.AppSettings[$"{PREFIX}_{nameof(Key)}"] = config.Key;

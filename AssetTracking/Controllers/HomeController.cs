@@ -7,10 +7,11 @@ namespace AssetTracking.Controllers
     {
         public ActionResult Index()
         {
-            var config = SearchConfiguration.RetrieveAppSettings();
-            if (config.Validate())
+            var searchConfig = SearchConfiguration.RetrieveAppSettings();
+            var cacheConfig = CacheConfiguration.RetrieveAppSettings();
+            if (searchConfig.Validate() && cacheConfig.Validate())
             {
-                SearchService service = new SearchService(config);
+                SearchService service = new SearchService(searchConfig, cacheConfig);
                 return View(new AssetViewModel
                 {
                     Ready = true,
@@ -31,18 +32,21 @@ namespace AssetTracking.Controllers
 
         public ActionResult Configure()
         {
-            var config = SearchConfiguration.RetrieveAppSettings();
+            var searchConfig = SearchConfiguration.RetrieveAppSettings();
+            var cacheConfig = CacheConfiguration.RetrieveAppSettings();
             return View(new ConfigurationViewModel
             {
                 Saved = false,
-                Configuration = config
+                SearchConfiguration = searchConfig,
+                CacheConfiguration = cacheConfig
             });
         }
 
         [HttpPost]
         public ActionResult Configure(ConfigurationViewModel viewModel)
         {
-            SearchConfiguration.SaveAppSettings(viewModel.Configuration);
+            SearchConfiguration.SaveAppSettings(viewModel.SearchConfiguration);
+            CacheConfiguration.SaveAppSettings(viewModel.CacheConfiguration);
             viewModel.Saved = true;
             return View(viewModel);
         }
