@@ -121,7 +121,7 @@
     </Compile>
     <Compile Include="Models\AssetViewModel.cs" />
     <Compile Include="Models\ConfigurationViewModel.cs" />
-    <Compile Include="Models\HtmlHelpers.cs" />
+    <Compile Include="Models\DataHelpers.cs" />
     <Compile Include="Models\MongoDBConfiguration.cs" />
     <Compile Include="Models\MongoDBService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
