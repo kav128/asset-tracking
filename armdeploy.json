@@ -1,75 +1,75 @@
-var js = {
-	"$schema": "http://schemas.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-	"contentVersion": "1.0.0.0",
-	"parameters": {
+{
+    "$schema": "http://schemas.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
 
-	},
-	"variables": {
-		"webAppName": "[concat('web-', uniqueString(resourceGroup().id, deployment().name))]",
-		"hostingPlanName": "[concat('plan-', uniqueString(resourceGroup().id, deployment().name))]",
-		"storageAccountName": "[concat('stor-', uniqueString(resourceGroup().id, deployment().name))]",
-		"repoURL": "https://github.com/Azure-Architecture-Workshop/asset-tracking.git",
-		"branch": "storagetables",
-		"sku": "Free",
-		"workerSize": 0,
-		"storageAccountType": "Standard_LRS"
-	},
-	"resources": [{
-		"apiVersion": "2016-01-01",
-		"name": "[variables('storageAccountName')]",
-		"location": "[resourceGroup().location]",
-		"type": "Microsoft.Storage/storageAccounts",
-		"sku": {
-			"name": "[variables('storageAccountType')]"
-		},
-		"kind": "Storage",
-		"properties": {}
-	}, {
-		"type": "Microsoft.Web/serverfarms",
-		"apiVersion": "2015-04-01",
-		"name": "[variables('hostingPlanName')]",
-		"location": "[resourceGroup().location]",
-		"properties": {
-			"name": "[variables('hostingPlanName')]",
-			"sku": "[variables('sku')]",
-			"workerSize": "[variables('workerSize')]",
-			"hostingEnvironment": "",
-			"numberOfWorkers": 1
-		}
-	}, {
-		"apiVersion": "2015-08-01",
-		"type": "Microsoft.Web/sites",
-		"name": "[variables('webAppName')]",
-		"location": "[resourceGroup().location]",
-		"properties": {
-			"name": "[variables('webAppName')]",
-			"serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
-			"siteConfig": {
-				"appSettings": [{
-					"Name": "STORAGE_ConnectionString",
-					"Value": "[Concat('DefaultEndpointsProtocol=https;AccountName=',variables('storageAccountName'),';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value)]"
-				}, {
-					"Name": "STORAGE_Table",
-					"Value": "products"
-				}]
-			}
-		},
-		"dependsOn": [
-			"[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
-			"[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
-		],
-		"resources": [{
-			"apiVersion": "2015-08-01",
-			"name": "web",
-			"type": "sourcecontrols",
-			"dependsOn": [
-				"[resourceId('Microsoft.Web/Sites', variables('webAppName'))]"
-			],
-			"properties": {
-				"RepoUrl": "[variables('repoURL')]",
-				"branch": "[variables('branch')]",
-				"IsManualIntegration": true
-			}
-		}]
-	}]
-};
+    },
+    "variables": {
+        "webAppName": "[concat('web-', uniqueString(resourceGroup().id, deployment().name))]",
+        "hostingPlanName": "[concat('plan-', uniqueString(resourceGroup().id, deployment().name))]",
+        "storageAccountName": "[concat('stor-', uniqueString(resourceGroup().id, deployment().name))]",
+        "repoURL": "https://github.com/Azure-Architecture-Workshop/asset-tracking.git",
+        "branch": "storagetables",
+        "sku": "Free",
+        "workerSize": 0,
+        "storageAccountType": "Standard_LRS"
+    },
+    "resources": [{
+        "apiVersion": "2016-01-01",
+        "name": "[variables('storageAccountName')]",
+        "location": "[resourceGroup().location]",
+        "type": "Microsoft.Storage/storageAccounts",
+        "sku": {
+            "name": "[variables('storageAccountType')]"
+        },
+        "kind": "Storage",
+        "properties": {}
+    }, {
+        "type": "Microsoft.Web/serverfarms",
+        "apiVersion": "2015-04-01",
+        "name": "[variables('hostingPlanName')]",
+        "location": "[resourceGroup().location]",
+        "properties": {
+            "name": "[variables('hostingPlanName')]",
+            "sku": "[variables('sku')]",
+            "workerSize": "[variables('workerSize')]",
+            "hostingEnvironment": "",
+            "numberOfWorkers": 1
+        }
+    }, {
+        "apiVersion": "2015-08-01",
+        "type": "Microsoft.Web/sites",
+        "name": "[variables('webAppName')]",
+        "location": "[resourceGroup().location]",
+        "properties": {
+            "name": "[variables('webAppName')]",
+            "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
+            "siteConfig": {
+                "appSettings": [{
+                    "Name": "STORAGE_ConnectionString",
+                    "Value": "[Concat('DefaultEndpointsProtocol=https;AccountName=',variables('storageAccountName'),';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value)]"
+                }, {
+                    "Name": "STORAGE_Table",
+                    "Value": "products"
+                }]
+            }
+        },
+        "dependsOn": [
+            "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
+            "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
+        ],
+        "resources": [{
+            "apiVersion": "2015-08-01",
+            "name": "web",
+            "type": "sourcecontrols",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/Sites', variables('webAppName'))]"
+            ],
+            "properties": {
+                "RepoUrl": "[variables('repoURL')]",
+                "branch": "[variables('branch')]",
+                "IsManualIntegration": true
+            }
+        }]
+    }]
+}
