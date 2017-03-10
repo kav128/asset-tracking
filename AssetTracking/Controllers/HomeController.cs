@@ -7,10 +7,10 @@ namespace AssetTracking.Controllers
     {
         public ActionResult Index()
         {
-            var config = DocumentDBConfiguration.RetrieveAppSettings();
+            var config = StorageConfiguration.RetrieveAppSettings();
             if (config.Validate())
             {
-                DocumentDBService service = new DocumentDBService(config);
+                StorageService service = new StorageService(config);
                 return View(new AssetViewModel
                 {
                     Ready = true,
@@ -31,7 +31,7 @@ namespace AssetTracking.Controllers
 
         public ActionResult Configure()
         {
-            var config = DocumentDBConfiguration.RetrieveAppSettings();
+            var config = StorageConfiguration.RetrieveAppSettings();
             return View(new ConfigurationViewModel
             {
                 Saved = false,
@@ -42,7 +42,7 @@ namespace AssetTracking.Controllers
         [HttpPost]
         public ActionResult Configure(ConfigurationViewModel viewModel)
         {
-            DocumentDBConfiguration.SaveAppSettings(viewModel.Configuration);
+            StorageConfiguration.SaveAppSettings(viewModel.Configuration);
             viewModel.Saved = true;
             return View(viewModel);
         }
