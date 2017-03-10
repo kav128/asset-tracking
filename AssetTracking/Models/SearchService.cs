@@ -11,6 +11,7 @@ namespace AssetTracking.Models
 {
     public class SearchService
     {
+        private const string CACHE_WAREHOUSE_STATUS = "alerts:warehouse:status";
         private const string CACHE_LATEST_ASSET_NAME = "values:latest_asset_name";
         private const string CACHE_DOCUMENT_COUNT = "values:document_count";
         private const string CACHE_DOCUMENTS_TIMESTAMP = "set:documents:timestamp";
@@ -23,6 +24,19 @@ namespace AssetTracking.Models
         {
             _searchConfiguration = searchConfiguration;
             _cacheConfiguration = cacheConfiguration;
+        }
+
+        internal string WarehouseStatus()
+        {
+            Lazy<ConnectionMultiplexer> lazyConnection = new Lazy<ConnectionMultiplexer>(() =>
+            {
+                return ConnectionMultiplexer.Connect(_cacheConfiguration.ConnectionString);
+            });
+            ConnectionMultiplexer connection = lazyConnection.Value;
+            IDatabase cache = connection.GetDatabase();
+            var cacheValue = cache.StringGet(CACHE_WAREHOUSE_STATUS);
+            string result = cacheValue.HasValue ? cacheValue.ToString() : String.Empty;
+            return result;
         }
 
         internal int CountDocuments()
@@ -48,7 +62,7 @@ namespace AssetTracking.Models
             }
         }
 
-        internal string GetLatestAssetName()
+        internal string LatestAssetName()
         {
             Lazy<ConnectionMultiplexer> lazyConnection = new Lazy<ConnectionMultiplexer>(() =>
             {

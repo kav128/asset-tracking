@@ -39,6 +39,14 @@
             </div>
         </div>
     </section>
+    @if (!String.IsNullOrEmpty(Model.WarhouseStatus))
+    {
+        <div class="card card-inverse card-primary my-4 text-center">
+            <div class="card-block">
+                @Model.WarhouseStatus
+            </div>
+        </div>
+    }
     <table class="table table-hover my-4">
         <thead class="thead-inverse">
             <tr>

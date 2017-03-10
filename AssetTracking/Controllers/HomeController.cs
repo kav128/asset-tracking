@@ -18,7 +18,8 @@ namespace AssetTracking.Controllers
                     Assets = service.GetDocuments(),
                     Count = service.CountDocuments(),
                     CacheLastUpdated = service.CacheLastUpdated(),
-                    LatestAssetName = service.GetLatestAssetName()
+                    LatestAssetName = service.LatestAssetName(),
+                    WarhouseStatus = service.WarehouseStatus()
                 });
             }
             else

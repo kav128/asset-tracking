@@ -12,6 +12,8 @@ namespace AssetTracking.Models
 
         public string LatestAssetName { get; set; }
 
+        public string WarhouseStatus { get; set; }
+
         public IEnumerable<dynamic> Assets { get; set; }
     }
 }
