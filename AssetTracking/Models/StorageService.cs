@@ -27,13 +27,13 @@ namespace AssetTracking.Models
             return result;
         }
 
-        internal string GetLatestAssetName()
+        internal string MostExpensiveAssetName()
         {
             CloudStorageAccount account = CloudStorageAccount.Parse(_configuration.ConnectionString);
             CloudTableClient client = account.CreateCloudTableClient();
             CloudTable table = client.GetTableReference(_configuration.Table);
             TableQuery<DynamicTableEntity> projectionQuery = new TableQuery<DynamicTableEntity>();
-            string result = table.ExecuteQuery(projectionQuery).OrderBy(t => t.Timestamp).Select(t => t["name"].StringValue).FirstOrDefault();
+            string result = table.ExecuteQuery(projectionQuery).OrderByDescending(t => t["cost"].Int32Value).Select(t => t["name"].StringValue).FirstOrDefault();
             return result;
         }
 

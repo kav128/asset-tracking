@@ -10,7 +10,7 @@ namespace AssetTracking.Models
 
         public int AverageCost { get; set; }
 
-        public string LatestAssetName { get; set; }
+        public string MostExpensiveAssetName { get; set; }
 
         public IEnumerable<dynamic> Assets { get; set; }
     }

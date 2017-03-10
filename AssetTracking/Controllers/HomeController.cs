@@ -17,7 +17,7 @@ namespace AssetTracking.Controllers
                     Assets = service.GetDocuments(),
                     Count = service.CountDocuments(),
                     AverageCost = service.AverageCost(),
-                    LatestAssetName = service.GetLatestAssetName()
+                    MostExpensiveAssetName = service.MostExpensiveAssetName()
                 });
             }
             else
