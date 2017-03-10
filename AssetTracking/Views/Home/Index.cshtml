@@ -22,7 +22,7 @@
                     </div>
                     <h6 class="text-uppercase">Average Cost</h6>
                     <h1 class="display-3">
-                        @Model.AverageCost
+                        @Model.AverageCost.ToString("C")
                     </h1>
                 </div>
             </div>
@@ -55,17 +55,17 @@
                 <tr>
                     <td>
                         <small class="text-faded">
-                            @item.id
+                            @item.RowKey
                         </small>
                     </td>
-                    <th scope="row">@item.name</th>
+                    <th scope="row">@item.name.name</th>
                     <td>
                         <em>
-                            @item.code
+                            @item.code.code
                         </em>
                     </td>
                     <td class="text-right">
-                        @item.cost.ToString("C")
+                        @item.cost.cost.ToString("C")
                     </td>
                     <td>
                         <button type="button" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="left" title="@item">
