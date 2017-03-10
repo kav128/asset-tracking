@@ -8,7 +8,7 @@ namespace AssetTracking.Models
 
         public int Count { get; set; }
 
-        public int AverageCost { get; set; }
+        public int MostExpensiveCost { get; set; }
 
         public string LatestAssetName { get; set; }
 

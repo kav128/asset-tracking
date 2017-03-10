@@ -1,48 +1,51 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Net;
-using Microsoft.Azure.Documents;
-using Microsoft.Azure.Documents.Client;
-using Newtonsoft.Json;
 
 namespace AssetTracking.Models
 {
-    public class DocumentDBService
+    public class MongoDBService
     {
-        private DocumentDBConfiguration _configuration;
+        private MongoDBConfiguration _configuration;
 
-        public DocumentDBService(DocumentDBConfiguration configuration)
+        public MongoDBService(MongoDBConfiguration configuration)
         {
             _configuration = configuration;
         }
 
         internal int CountDocuments()
         {
-            DocumentClient client = new DocumentClient(new Uri(_configuration.Host), _configuration.Key);
-            IEnumerable<int> results = client.CreateDocumentQuery<int>(new Uri(_configuration.CollectionUrl, UriKind.Relative), "SELECT VALUE COUNT(assets.id) FROM assets");
-            return results.FirstOrDefault();
+            MongoClient client = new MongoClient(_configuration.ConnectionString);
+            IMongoCollection<dynamic> collection = client.GetDatabase(_configuration.Database).GetCollection<dynamic>(_configuration.Collection);
+            int result = Convert.ToInt32(collection.Count(a => true));
+            return result;
         }
 
         internal string GetLatestAssetName()
         {
-            DocumentClient client = new DocumentClient(new Uri(_configuration.Host), _configuration.Key);
-            IEnumerable<string> results = client.CreateDocumentQuery<string>(new Uri(_configuration.CollectionUrl, UriKind.Relative), "SELECT TOP 1 VALUE assets.name FROM assets ORDER BY assets._ts DESC");
-            return results.FirstOrDefault();
+            MongoClient client = new MongoClient(_configuration.ConnectionString);
+            IMongoCollection<dynamic> collection = client.GetDatabase(_configuration.Database).GetCollection<dynamic>(_configuration.Collection);
+            BsonDocument document = collection.Find(a => true).Sort("{ _id: -1 }").Project("{ name: 1, _id: 0 }").FirstOrDefault<BsonDocument>();
+            string result = document["name"].AsString;
+            return result;
         }
 
-        internal int AverageCost()
+        internal int MostExpensiveCost()
         {
-            DocumentClient client = new DocumentClient(new Uri(_configuration.Host), _configuration.Key);
-            IEnumerable<int> results = client.CreateDocumentQuery<int>(new Uri(_configuration.CollectionUrl, UriKind.Relative), "SELECT VALUE AVG(assets.cost) FROM assets");
-            return results.FirstOrDefault();
+            MongoClient client = new MongoClient(_configuration.ConnectionString);
+            IMongoCollection<dynamic> collection = client.GetDatabase(_configuration.Database).GetCollection<dynamic>(_configuration.Collection);
+            BsonDocument document = collection.Find(a => true).Sort("{ cost: -1 }").Project("{ cost: 1, _id: 0 }").FirstOrDefault();
+            int result = Convert.ToInt32(document["cost"].AsDouble);
+            return result;
         }
 
         public IEnumerable<dynamic> GetDocuments()
         {
-            DocumentClient client = new DocumentClient(new Uri(_configuration.Host), _configuration.Key);
-            IEnumerable<dynamic> results = client.CreateDocumentQuery(new Uri(_configuration.CollectionUrl, UriKind.Relative), "SELECT * FROM assets");
+            MongoClient client = new MongoClient(_configuration.ConnectionString);
+            IMongoCollection<dynamic> collection = client.GetDatabase(_configuration.Database).GetCollection<dynamic>(_configuration.Collection);
+            IEnumerable<dynamic> results = collection.AsQueryable().ToEnumerable();
             return results;
         }
     }

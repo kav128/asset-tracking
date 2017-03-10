@@ -3,44 +3,36 @@ using System.Configuration;
 
 namespace AssetTracking.Models
 {
-    public class DocumentDBConfiguration
+    public class MongoDBConfiguration
     {
         const string PREFIX = "MONGODB";
 
-        public string Host { get; set; }
-
-        public string Key { get; set; }
+        public string ConnectionString { get; set; }
 
         public string Database { get; set; }
 
         public string Collection { get; set; }
         
-        public static DocumentDBConfiguration RetrieveAppSettings()
+        public static MongoDBConfiguration RetrieveAppSettings()
         {
-            return new DocumentDBConfiguration
+            return new MongoDBConfiguration
             {
-                Host = ConfigurationManager.AppSettings[$"{PREFIX}_{nameof(Host)}"],
-                Key = ConfigurationManager.AppSettings[$"{PREFIX}_{nameof(Key)}"],
+                ConnectionString = ConfigurationManager.AppSettings[$"{PREFIX}_{nameof(ConnectionString)}"],
                 Database = ConfigurationManager.AppSettings[$"{PREFIX}_{nameof(Database)}"],
                 Collection = ConfigurationManager.AppSettings[$"{PREFIX}_{nameof(Collection)}"]
             };
         }
 
-        public static void SaveAppSettings(DocumentDBConfiguration config)
+        public static void SaveAppSettings(MongoDBConfiguration config)
         {
-            ConfigurationManager.AppSettings[$"{PREFIX}_{nameof(Host)}"] = config.Host;
-            ConfigurationManager.AppSettings[$"{PREFIX}_{nameof(Key)}"] = config.Key;
+            ConfigurationManager.AppSettings[$"{PREFIX}_{nameof(ConnectionString)}"] = config.ConnectionString;
             ConfigurationManager.AppSettings[$"{PREFIX}_{nameof(Database)}"] = config.Database;
             ConfigurationManager.AppSettings[$"{PREFIX}_{nameof(Collection)}"] = config.Collection;
         }
 
         public bool Validate()
         {
-            if (String.IsNullOrWhiteSpace(Host))
-            {
-                return false;
-            }
-            else if (String.IsNullOrWhiteSpace(Key))
+            if (String.IsNullOrWhiteSpace(ConnectionString))
             {
                 return false;
             }

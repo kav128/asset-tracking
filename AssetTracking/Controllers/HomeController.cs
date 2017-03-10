@@ -7,16 +7,16 @@ namespace AssetTracking.Controllers
     {
         public ActionResult Index()
         {
-            var config = DocumentDBConfiguration.RetrieveAppSettings();
+            var config = MongoDBConfiguration.RetrieveAppSettings();
             if (config.Validate())
             {
-                DocumentDBService service = new DocumentDBService(config);
+                MongoDBService service = new MongoDBService(config);
                 return View(new AssetViewModel
                 {
                     Ready = true,
                     Assets = service.GetDocuments(),
                     Count = service.CountDocuments(),
-                    AverageCost = service.AverageCost(),
+                    MostExpensiveCost = service.MostExpensiveCost(),
                     LatestAssetName = service.GetLatestAssetName()
                 });
             }
@@ -31,7 +31,7 @@ namespace AssetTracking.Controllers
 
         public ActionResult Configure()
         {
-            var config = DocumentDBConfiguration.RetrieveAppSettings();
+            var config = MongoDBConfiguration.RetrieveAppSettings();
             return View(new ConfigurationViewModel
             {
                 Saved = false,
@@ -42,7 +42,7 @@ namespace AssetTracking.Controllers
         [HttpPost]
         public ActionResult Configure(ConfigurationViewModel viewModel)
         {
-            DocumentDBConfiguration.SaveAppSettings(viewModel.Configuration);
+            MongoDBConfiguration.SaveAppSettings(viewModel.Configuration);
             viewModel.Saved = true;
             return View(viewModel);
         }

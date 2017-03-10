@@ -20,9 +20,9 @@
                     <div class="rotate">
                         <i class="fa fa-credit-card-alt fa-5x"></i>
                     </div>
-                    <h6 class="text-uppercase">Average Cost</h6>
+                    <h6 class="text-uppercase">Most Expensive Cost</h6>
                     <h1 class="display-3">
-                        @Model.AverageCost
+                        @Model.MostExpensiveCost.ToString("C")
                     </h1>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                 <tr>
                     <td>
                         <small class="text-faded">
-                            @item.id
+                            @item._id
                         </small>
                     </td>
                     <th scope="row">@item.name</th>
@@ -68,7 +68,7 @@
                         @item.cost.ToString("C")
                     </td>
                     <td>
-                        <button type="button" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="left" title="@item">
+                        <button type="button" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="left" title="@DataHelpers.GetJsonString(item)">
                             <i class="fa fa-code" aria-hidden="true"></i>
                             View JSON
                         </button>
