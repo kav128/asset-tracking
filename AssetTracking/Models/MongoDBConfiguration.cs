@@ -5,7 +5,7 @@ namespace AssetTracking.Models
 {
     public class DocumentDBConfiguration
     {
-        const string PREFIX = "DOCUMENTDB";
+        const string PREFIX = "MONGODB";
 
         public string Host { get; set; }
 
@@ -14,12 +14,7 @@ namespace AssetTracking.Models
         public string Database { get; set; }
 
         public string Collection { get; set; }
-
-        public string CollectionUrl
-        {
-            get { return $"dbs/{Database}/colls/{Collection}"; }
-        }
-
+        
         public static DocumentDBConfiguration RetrieveAppSettings()
         {
             return new DocumentDBConfiguration
